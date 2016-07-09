@@ -32,7 +32,7 @@ module JsonToRubyClass
     accessors_to_be_used = accessors.map { |s| ":#{s.to_s.underscore}" }
 
     if (hash = existing_models_array.find { |model| model[:name] == model_name_to_be_used })
-      hash[:accessors].push(accessors_to_be_used).uniq!
+      hash[:accessors].push(accessors_to_be_used).flatten!.uniq!
     else
       existing_models_array << {
           :name => (model_name.nil? ? 'Example' : model_name.to_s.camelcase),
