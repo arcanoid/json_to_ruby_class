@@ -22,7 +22,32 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
+json = {"students": [
+                        {  "firstName":"John" , "lastName":"Doe", "age":15 }, 
+                        {  "firstName":"Anna" , "lastName":"Smith", "age":16 }
+                        ]
+                        }
 
+puts JsonToRubyClass.produce_models(json)
+```
+
+This produces the following:
+
+```ruby
+Class Student
+   attr_accessor :first_name,
+                 :last_name,
+                 :age,
+                 :first_name,
+                 :last_name,
+                 :age
+end
+
+Class Example
+   attr_accessor :students
+end
+```
 
 ## Development
 
