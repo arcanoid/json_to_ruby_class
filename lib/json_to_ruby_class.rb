@@ -21,7 +21,9 @@ module JsonToRubyClass
         collect_info_from_json(value, constructed_model_name, existing_models_array)
       elsif value.class == Array
         value.each do |array_element|
-          collect_info_from_json(array_element, constructed_model_name, existing_models_array)
+          if array_element.class == Hash || array_element.class == Array
+            collect_info_from_json(array_element, constructed_model_name, existing_models_array)
+          end
         end
       end
 
