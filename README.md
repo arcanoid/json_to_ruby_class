@@ -1,6 +1,7 @@
 # JsonToRubyClass
 
 [![Build Status](https://travis-ci.org/arcanoid/json_to_ruby_class.svg?branch=master)](https://travis-ci.org/arcanoid/json_to_ruby_class)
+[![Gem Version](https://badge.fury.io/rb/json_to_ruby_class.svg)](https://badge.fury.io/rb/json_to_ruby_class)
 
 JsonToRubyClass is a gem that converts a JSON to a list of Ruby classes and outputs it into a string.
 
