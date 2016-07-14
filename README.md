@@ -24,7 +24,8 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-json = {
+json = <<-JSON
+{
   "students": [
     {
       "firstName": "John",
@@ -38,6 +39,7 @@ json = {
     }
   ]
 }
+JSON
 
 puts JsonToRubyClass.produce_models(json)
 ```
