@@ -1,4 +1,6 @@
 require "json_to_ruby_class/version"
+require 'active_support'
+require 'active_support/core_ext'
 
 module JsonToRubyClass
   def self.produce_models(hash)
@@ -11,6 +13,9 @@ module JsonToRubyClass
   #######
 
   def self.collect_info_from_json(hash, model_name, existing_models_array = [])
+    unless hash.is_a? Hash
+      hash = ActiveSupport::JSON.decode(hash)
+    end
     accessors = []
 
     hash.each do |key, value|
@@ -49,7 +54,7 @@ module JsonToRubyClass
     model_string = ''
 
     models_array.each do |model|
-      model_string << "Class #{model[:name].singularize}\n"
+      model_string << "class #{model[:name].singularize}\n"
       model_string << '   attr_accessor '
       model_string << model[:accessors].join(",\n                 ")
       model_string << "\nend\n\n"

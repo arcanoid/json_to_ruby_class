@@ -47,13 +47,13 @@ puts JsonToRubyClass.produce_models(json)
 This produces the following:
 
 ```ruby
-Class Student
+class Student
    attr_accessor :first_name,
                  :last_name,
                  :age
 end
 
-Class Example
+class Example
    attr_accessor :students
 end
 ```
