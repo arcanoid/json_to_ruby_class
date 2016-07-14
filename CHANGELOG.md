@@ -1,3 +1,9 @@
+## 0.1.3 (2016-07-14)
+
+Bug fixes
+* class instead of Class
+* Added needed activesupport for various methods
+
 ## 0.1.2 (2016-07-12)
 
 Bug fixes
