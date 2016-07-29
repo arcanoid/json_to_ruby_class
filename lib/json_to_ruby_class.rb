@@ -3,9 +3,13 @@ require 'active_support'
 require 'active_support/core_ext'
 
 module JsonToRubyClass
-  def self.produce_models(hash)
+  def self.produce_models(hash, language = 'ruby')
     models_array = collect_info_from_json(hash, nil)
-    prepare_models_from_hash models_array
+
+    case language
+     when 'c#' then prepare_c_sharp_models_from_hash models_array
+     else prepare_ruby_models_from_hash models_array
+    end
   end
 
   #######
@@ -36,7 +40,7 @@ module JsonToRubyClass
     end
 
     model_name_to_be_used = (model_name.nil? ? 'Example' : model_name.to_s.camelcase)
-    accessors_to_be_used = accessors.map { |s| ":#{s.to_s.underscore}" }
+    accessors_to_be_used = accessors.map { |s| "#{s.to_s}" }
 
     if (hash = existing_models_array.find { |model| model[:name] == model_name_to_be_used })
       hash[:accessors].push(accessors_to_be_used).flatten!.uniq!
@@ -50,14 +54,30 @@ module JsonToRubyClass
     existing_models_array
   end
 
-  def self.prepare_models_from_hash(models_array)
+  def self.prepare_ruby_models_from_hash(models_array)
     model_string = ''
 
     models_array.each do |model|
       model_string << "class #{model[:name].singularize}\n"
       model_string << '   attr_accessor '
-      model_string << model[:accessors].join(",\n                 ")
+      model_string << model[:accessors].map { |accessor| ":#{accessor.underscore}" }.join(",\n                 ")
       model_string << "\nend\n\n"
+    end
+
+    model_string
+  end
+
+  def self.prepare_c_sharp_models_from_hash(models_array)
+    model_string = ''
+
+    models_array.each do |model|
+      model_string << "public class #{model[:name].singularize}\n"
+      model_string << "{\n"
+
+      model[:accessors].each do |accessor|
+        model_string << "   public string #{accessor} { get; set; }\n"
+      end
+      model_string << "}\n\n"
     end
 
     model_string
