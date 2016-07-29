@@ -103,12 +103,12 @@ public class Student
 {
    public string firstName { get; set; }
    public string lastName { get; set; }
-   public string age { get; set; }
+   public int age { get; set; }
 }
 
 public class Example
 {
-   public string students { get; set; }
+   public Student[] students { get; set; }
 }
 
         TEXT
