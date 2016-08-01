@@ -20,7 +20,6 @@ module JsonToRubyClass
                    when 'TrueClass' then 'bool'
                    when 'FalseClass' then 'bool'
                    when 'Hash' then "#{accessor[:key].singularize.camelcase}"
-                   #   TODO: Are all types covered here?
                    #   TODO: How could you cover an array of integers?
                    else accessor[:type].to_s
                  end

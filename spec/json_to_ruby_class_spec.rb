@@ -118,5 +118,46 @@ public class Example
         expect(result).to eq(expected_result)
       end
     end
+
+    context "Given a JSON for VB.net" do
+      let(:json) do
+        <<-JSON
+          {
+            "students": [
+              {
+                "firstName": "Json",
+                "lastName": "Doe",
+                "age": 15
+              },
+              {
+                "firstName": "Anna",
+                "lastName": "Smith",
+                "age": 22
+              }
+            ]
+          }
+        JSON
+      end
+
+      let(:result) { subject.produce_models(json, 'vb') }
+      let(:expected_result) do
+        <<-TEXT
+Public Class Student
+   Public Property firstName As String
+   Public Property lastName As String
+   Public Property age As Integer
+End Class
+
+Public Class Example
+   Public Property students As Student()
+End Class
+
+        TEXT
+      end
+
+      it 'defines the classes correctly' do
+        expect(result).to eq(expected_result)
+      end
+    end
   end
 end

@@ -1,15 +1,21 @@
 require "json_to_ruby_class/version"
 require "json_to_ruby_class/ruby_converter"
 require "json_to_ruby_class/c_sharp_converter"
+require "json_to_ruby_class/vb_dot_net_converter"
 require 'active_support'
 require 'active_support/core_ext'
 
 module JsonToRubyClass
+  VB_DOT_NET_LANGUAGE_TYPE = 'vb'
+  C_SHARP_LANGUAGE_TYPE = 'c#'
+  RUBY_LANGUAGE_TYPE = 'ruby'
+
   def self.produce_models(hash, language = 'ruby')
     models_array = collect_info_from_json(hash, nil)
 
     case language
-     when 'c#' then CSharpConverter.prepare_c_sharp_models_from_hash models_array
+     when C_SHARP_LANGUAGE_TYPE then CSharpConverter.prepare_c_sharp_models_from_hash models_array
+     when VB_DOT_NET_LANGUAGE_TYPE then VBDotNetConverter.prepare_vb_dot_net_models_from_hash models_array
      else RubyConverter.prepare_ruby_models_from_hash models_array
     end
   end
