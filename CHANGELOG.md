@@ -1,3 +1,9 @@
+## 0.2.0 (2016-08-02)
+
+Features
+* C# classes are now supported
+* VB.Net classes are now supported
+
 ## 0.1.3 (2016-07-14)
 
 Bug fixes

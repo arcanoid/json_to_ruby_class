@@ -58,6 +58,28 @@ class Example
 end
 ```
 
+Furthermore, the following types can be used to retrieve the proper classes in other languages:
+* 'c#', for C# classes
+* 'vb', for VB.net classes
+
+Example use:
+
+```ruby
+puts JsonToRubyClass.produce_models(json, 'c#')
+
+public class Student
+{
+   public string firstName { get; set; }
+   public string lastName { get; set; }
+   public int age { get; set; }
+}
+
+public class Example
+{
+   public Student[] students { get; set; }
+}
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
