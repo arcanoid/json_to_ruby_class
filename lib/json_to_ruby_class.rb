@@ -1,4 +1,6 @@
 require "json_to_ruby_class/version"
+require "json_to_ruby_class/ruby_converter"
+require "json_to_ruby_class/c_sharp_converter"
 require 'active_support'
 require 'active_support/core_ext'
 
@@ -7,8 +9,8 @@ module JsonToRubyClass
     models_array = collect_info_from_json(hash, nil)
 
     case language
-     when 'c#' then prepare_c_sharp_models_from_hash models_array
-     else prepare_ruby_models_from_hash models_array
+     when 'c#' then CSharpConverter.prepare_c_sharp_models_from_hash models_array
+     else RubyConverter.prepare_ruby_models_from_hash models_array
     end
   end
 
@@ -51,47 +53,5 @@ module JsonToRubyClass
     end
 
     existing_models_array
-  end
-
-  def self.prepare_ruby_models_from_hash(models_array)
-    model_string = ''
-
-    models_array.each do |model|
-      model_string << "class #{model[:name].singularize}\n"
-      model_string << '   attr_accessor '
-      model_string << model[:accessors].map { |accessor| ":#{accessor[:key].underscore}" }.join(",\n                 ")
-      model_string << "\nend\n\n"
-    end
-
-    model_string
-  end
-
-  def self.prepare_c_sharp_models_from_hash(models_array)
-    model_string = ''
-
-    models_array.each do |model|
-      model_string << "public class #{model[:name].singularize}\n"
-      model_string << "{\n"
-
-      model[:accessors].each do |accessor|
-        type = case accessor[:type].to_s
-                 when 'String' then 'string'
-                 when 'Fixnum' then 'int'
-                 when 'Float' then 'decimal'
-                 when 'Array' then "#{accessor[:key].singularize.camelcase}[]"
-                 when 'TrueClass' then 'bool'
-                 when 'FalseClass' then 'bool'
-                 when 'Hash' then "#{accessor[:key].singularize.camelcase}"
-                 #   TODO: Are all types covered here?
-                 #   TODO: How could you cover an array of integers?
-                 else accessor[:type].to_s
-               end
-
-        model_string << "   public #{type} #{accessor[:key]} { get; set; }\n"
-      end
-      model_string << "}\n\n"
-    end
-
-    model_string
   end
 end
