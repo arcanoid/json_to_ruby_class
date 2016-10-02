@@ -60,4 +60,6 @@ module JsonToRubyClass
 
     existing_models_array
   end
+
+  private_class_method :collect_info_from_json
 end
